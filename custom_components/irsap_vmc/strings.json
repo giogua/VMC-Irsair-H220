@@ -1,0 +1,131 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Irsap VMC",
+        "description": "Address of the VMC web interface (the page that shows temperatures and fan speed).",
+        "data": {
+          "host": "IP address or host name",
+          "name": "Name"
+        },
+        "data_description": {
+          "host": "e.g. 192.168.1.243",
+          "name": "Name of the device in Home Assistant"
+        }
+      },
+      "reconfigure": {
+        "title": "Change address",
+        "data": {
+          "host": "IP address or host name"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot reach the unit at this address.",
+      "invalid_device": "The address responds, but it does not look like an Irsap VMC web interface.",
+      "unknown": "Unexpected error, see the log."
+    },
+    "abort": {
+      "already_configured": "This unit is already configured.",
+      "reconfigure_successful": "Address updated."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Polling",
+        "data": {
+          "scan_interval": "Main values refresh interval (s)",
+          "menu_interval": "Status menu and season refresh interval (s)"
+        },
+        "data_description": {
+          "menu_interval": "Reading these pages moves the unit's menu cursor (as if using the display), so keep this interval long."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "temp_outdoor": {
+        "name": "Outdoor temperature"
+      },
+      "temp_extract": {
+        "name": "Extract air temperature"
+      },
+      "temp_exhaust": {
+        "name": "Exhaust air temperature"
+      },
+      "temp_supply": {
+        "name": "Supply air temperature"
+      },
+      "efficiency": {
+        "name": "Heat recovery efficiency"
+      },
+      "boost_remaining": {
+        "name": "Boost remaining"
+      },
+      "supply_fan_rpm": {
+        "name": "Supply fan speed"
+      },
+      "exhaust_fan_rpm": {
+        "name": "Extract fan speed"
+      },
+      "fan_hours": {
+        "name": "Fan operating hours"
+      },
+      "alarms": {
+        "name": "Alarms"
+      }
+    },
+    "binary_sensor": {
+      "bypass": {
+        "name": "Bypass"
+      },
+      "alarm": {
+        "name": "Alarm"
+      },
+      "antifreeze": {
+        "name": "Antifreeze"
+      },
+      "supply_fan_remote": {
+        "name": "Supply fan remote control"
+      },
+      "exhaust_fan_remote": {
+        "name": "Extract fan remote control"
+      }
+    },
+    "number": {
+      "fan_speed": {
+        "name": "Fan speed"
+      },
+      "temperature_setpoint": {
+        "name": "Temperature set point"
+      },
+      "boost_duration": {
+        "name": "Boost duration"
+      }
+    },
+    "select": {
+      "season": {
+        "name": "Season",
+        "state": {
+          "winter": "Winter",
+          "summer": "Summer"
+        }
+      }
+    },
+    "switch": {
+      "power": {
+        "name": "Power"
+      },
+      "boost": {
+        "name": "Boost"
+      }
+    },
+    "button": {
+      "refresh": {
+        "name": "Refresh all data"
+      }
+    }
+  }
+}

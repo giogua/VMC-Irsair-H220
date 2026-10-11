@@ -1,0 +1,131 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Irsap VMC",
+        "description": "Indirizzo dell'interfaccia web della VMC (la pagina con temperature e velocità).",
+        "data": {
+          "host": "Indirizzo IP o nome host",
+          "name": "Nome"
+        },
+        "data_description": {
+          "host": "es. 192.168.1.243",
+          "name": "Nome del dispositivo in Home Assistant"
+        }
+      },
+      "reconfigure": {
+        "title": "Cambia indirizzo",
+        "data": {
+          "host": "Indirizzo IP o nome host"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossibile raggiungere la VMC a questo indirizzo.",
+      "invalid_device": "L'indirizzo risponde, ma non sembra l'interfaccia web di una VMC Irsap.",
+      "unknown": "Errore imprevisto, vedi il log."
+    },
+    "abort": {
+      "already_configured": "Questa VMC è già configurata.",
+      "reconfigure_successful": "Indirizzo aggiornato."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Aggiornamento",
+        "data": {
+          "scan_interval": "Intervallo di aggiornamento dei valori principali (s)",
+          "menu_interval": "Intervallo di lettura del menu Stato e della stagione (s)"
+        },
+        "data_description": {
+          "menu_interval": "La lettura di queste pagine sposta il cursore del menu della VMC (come usare il display): meglio un intervallo lungo."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "temp_outdoor": {
+        "name": "Temperatura esterna"
+      },
+      "temp_extract": {
+        "name": "Temperatura ripresa"
+      },
+      "temp_exhaust": {
+        "name": "Temperatura espulsa"
+      },
+      "temp_supply": {
+        "name": "Temperatura immissione"
+      },
+      "efficiency": {
+        "name": "Efficienza recuperatore"
+      },
+      "boost_remaining": {
+        "name": "Boost residuo"
+      },
+      "supply_fan_rpm": {
+        "name": "Giri ventilatore immissione"
+      },
+      "exhaust_fan_rpm": {
+        "name": "Giri ventilatore estrazione"
+      },
+      "fan_hours": {
+        "name": "Ore di funzionamento ventilatori"
+      },
+      "alarms": {
+        "name": "Allarmi"
+      }
+    },
+    "binary_sensor": {
+      "bypass": {
+        "name": "Bypass"
+      },
+      "alarm": {
+        "name": "Allarme"
+      },
+      "antifreeze": {
+        "name": "Antigelo batteria"
+      },
+      "supply_fan_remote": {
+        "name": "Ventilatore immissione da remoto"
+      },
+      "exhaust_fan_remote": {
+        "name": "Ventilatore estrazione da remoto"
+      }
+    },
+    "number": {
+      "fan_speed": {
+        "name": "Velocità ventilazione"
+      },
+      "temperature_setpoint": {
+        "name": "Setpoint temperatura"
+      },
+      "boost_duration": {
+        "name": "Durata boost"
+      }
+    },
+    "select": {
+      "season": {
+        "name": "Stagione",
+        "state": {
+          "winter": "Inverno",
+          "summer": "Estate"
+        }
+      }
+    },
+    "switch": {
+      "power": {
+        "name": "Accensione"
+      },
+      "boost": {
+        "name": "Boost"
+      }
+    },
+    "button": {
+      "refresh": {
+        "name": "Aggiorna tutti i dati"
+      }
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "entity": {
+    "sensor": {
+      "efficiency": {
+        "default": "mdi:heat-wave"
+      },
+      "boost_remaining": {
+        "default": "mdi:timer-outline"
+      },
+      "supply_fan_rpm": {
+        "default": "mdi:fan"
+      },
+      "exhaust_fan_rpm": {
+        "default": "mdi:fan"
+      },
+      "fan_hours": {
+        "default": "mdi:timer-cog-outline"
+      },
+      "alarms": {
+        "default": "mdi:alert-circle-outline"
+      }
+    },
+    "binary_sensor": {
+      "bypass": {
+        "default": "mdi:valve",
+        "state": {
+          "on": "mdi:valve-open",
+          "off": "mdi:valve-closed"
+        }
+      },
+      "antifreeze": {
+        "default": "mdi:snowflake-melt"
+      }
+    },
+    "number": {
+      "fan_speed": {
+        "default": "mdi:fan"
+      },
+      "boost_duration": {
+        "default": "mdi:fan-plus"
+      }
+    },
+    "select": {
+      "season": {
+        "default": "mdi:sun-snowflake-variant",
+        "state": {
+          "winter": "mdi:snowflake",
+          "summer": "mdi:white-balance-sunny"
+        }
+      }
+    },
+    "switch": {
+      "power": {
+        "default": "mdi:hvac",
+        "state": {
+          "off": "mdi:hvac-off"
+        }
+      },
+      "boost": {
+        "default": "mdi:fan-chevron-up"
+      }
+    },
+    "button": {
+      "refresh": {
+        "default": "mdi:refresh"
+      }
+    }
+  }
+}
