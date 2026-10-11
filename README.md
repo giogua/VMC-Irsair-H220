@@ -1,51 +1,61 @@
-# Irsap VMC (Irsair H 220) per Home Assistant
+<p align="center">
+  <img src="images/logo.png" alt="Irsap" height="72">
+</p>
 
-Integrazione custom per controllare le VMC **Irsap Irsair** (testata su Irsair H 220) tramite l'interfaccia web locale della macchina, senza cloud.
+# Irsap VMC (Irsair H 220) for Home Assistant
 
-Ogni VMC diventa **un dispositivo** in Home Assistant con tutte le sue entità. Per aggiungere altre macchine basta ripetere la configurazione con un altro IP.
+Custom integration to monitor and control **Irsap Irsair** mechanical ventilation units with heat recovery (*VMC*, tested on the Irsair H 220) through the unit's local web interface. No cloud required.
 
-## Entità
+Each unit shows up as **one device** that holds all of its entities. To add more units, run the setup again with another IP address.
 
-| Tipo | Entità | Note |
+## Entities
+
+| Platform | Entity | Notes |
 |---|---|---|
-| sensor | Temperatura esterna (Te), ripresa (Tr), espulsa (Tx), immissione (Ti) | dalla pagina principale |
-| sensor | Efficienza recuperatore | calcolata: (Ti − Te) / (Tr − Te); non disponibile se Tr − Te < 2 °C |
-| sensor | Giri ventilatore immissione / estrazione | dal menu *Stato* |
-| sensor | Ore di funzionamento ventilatori | dal menu *Stato* (diagnostica) |
-| sensor | Boost residuo, Allarmi | |
-| binary_sensor | Bypass, Allarme, Antigelo batteria | |
-| binary_sensor | Ventilatori da remoto | diagnostica, disattivati di default |
-| number | Velocità ventilazione (%) | passi da 1 e 10 |
-| number | Setpoint temperatura (°C) | passi da 0,2 e 2 |
-| number | Durata boost (min) | impostando N minuti il boost parte, o viene corretto, per N minuti; 0 lo ferma |
-| select | Stagione (Inverno / Estate) | *Parametri → Stagione* |
-| switch | Accensione | on/off della macchina |
-| switch | Boost | massima ventilazione per 10 minuti, poi torna alla velocità impostata |
-| button | Aggiorna tutti i dati | forza la lettura del menu *Stato* e della stagione |
+| sensor | Outdoor (Te), extract (Tr), exhaust (Tx) and supply (Ti) air temperature | from the main page |
+| sensor | Heat recovery efficiency | computed as (Ti − Te) / (Tr − Te); unavailable when Tr − Te < 2 °C |
+| sensor | Supply / extract fan speed (rpm) | from the unit's status menu |
+| sensor | Fan operating hours | from the status menu (diagnostic) |
+| sensor | Boost remaining, Alarms | |
+| binary_sensor | Bypass, Alarm, Coil antifreeze | |
+| binary_sensor | Supply / extract fan remote control | diagnostic, disabled by default |
+| number | Fan speed (%) | steps of 1 and 10 |
+| number | Temperature set point (°C) | steps of 0.2 and 2 |
+| number | Boost duration (min) | setting N starts the boost, or adjusts a running one, for N minutes; 0 stops it |
+| select | Season (winter / summer) | the unit's *Parameters → Season* setting |
+| switch | Power | turns the unit on and off |
+| switch | Boost | maximum ventilation for 10 minutes, then back to the configured speed |
+| button | Refresh all data | forces a read of the status menu and the season |
 
-## Installazione (HACS)
+Entity names are translated: English by default, Italian when Home Assistant runs in Italian.
 
-1. HACS → ⋮ → *Repository personalizzati* → `https://github.com/giogua/VMC-Irsair-H220`, categoria **Integrazione**.
-2. Installa **Irsap VMC (Irsair)** e riavvia Home Assistant.
-3. *Impostazioni → Dispositivi e servizi → Aggiungi integrazione → Irsap VMC*, poi inserisci l'IP della macchina (es. `192.168.1.243`) e un nome.
+## Installation (HACS)
 
-Opzioni: intervallo di aggiornamento dei valori principali (predefinito 30 s) e del menu Stato/Stagione (predefinito 300 s).
+1. HACS → ⋮ → *Custom repositories* → `https://github.com/giogua/VMC-Irsair-H220`, category **Integration**.
+2. Install **Irsap VMC (Irsair)** and restart Home Assistant.
+3. *Settings → Devices & services → Add integration → Irsap VMC*, then enter the unit's IP address (e.g. `192.168.1.243`) and a name.
 
-## Come funziona
+Options: refresh interval for the main values (default 30 s) and for the status menu and season (default 300 s).
 
-L'interfaccia web della macchina non ha un'API: è composta da piccole pagine HTML, una per valore (`iftemp_e.html`, `ifspeed_sp.html`, …), e da form con pulsanti-immagine (`inc0001`, `dec0001`, `iic0001`, `ddc0001`, `tgl0001`, …).
+## How it works
 
-- **Lettura**: le pagine della home si leggono senza effetti collaterali.
-- **Comandi**: vengono simulati i click sui pulsanti +/−/++/−−/on-off, e ogni risposta contiene già il nuovo valore. Per impostare un valore preciso l'integrazione preme i pulsanti fino a raggiungerlo.
-- **Menu (Stato, Parametri)**: si comporta come il display fisico, con un cursore lato server. L'integrazione lo naviga seguendo i link della pagina corrente, legge o modifica il valore e poi **riporta sempre il cursore alla Home**. Per questo il menu viene letto meno spesso.
-- Tutte le richieste verso una macchina passano da un'unica coda, così non si sovrappongono. Tra due cambi di stagione consecutivi passano almeno 5 secondi.
+The unit's web interface has no API. It is made of tiny HTML pages, one per value (`iftemp_e.html`, `ifspeed_sp.html`, …), and forms with image buttons (`inc0001`, `dec0001`, `iic0001`, `ddc0001`, `tgl0001`, …).
 
-## Sviluppo
+- **Reading**: the main page widgets can be read without side effects.
+- **Commands**: the integration simulates clicks on the +, −, ++, −− and on/off buttons. Every response already contains the new value. To reach an exact value it keeps pressing until the target is reached.
+- **Menu** (status, parameters): it behaves like the physical display, with a server-side cursor. The integration navigates it by following the links of the current page, reads or changes the value, and then **always brings the cursor back to the home page**. That is why the menu is polled less often.
+- All requests to a unit go through a single queue, so they never overlap. Two consecutive season changes are always at least 5 seconds apart.
+
+## Development
 
 ```bash
 pip install aiohttp pytest pytest-asyncio
-pytest tests/test_api.py               # client contro una VMC simulata (tests/fake_vmc.py)
+pytest tests/test_api.py               # client against a simulated unit (tests/fake_vmc.py)
 
 pip install pytest-homeassistant-custom-component
-pytest -o asyncio_mode=auto tests/ha   # test end-to-end dentro Home Assistant
+pytest -o asyncio_mode=auto tests/ha   # end-to-end tests inside Home Assistant
 ```
+
+## Disclaimer
+
+This is an unofficial, community project. It is not affiliated with or endorsed by Irsap S.p.A. The Irsap name and logo are trademarks of their owner and are used only to identify the supported devices.

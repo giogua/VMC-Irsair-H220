@@ -1,4 +1,4 @@
-"""Season select ("Parametri > Stagione")."""
+"""Season select (unit menu "Parametri > Stagione", i.e. Parameters > Season)."""
 
 from __future__ import annotations
 

@@ -28,7 +28,7 @@ class IrsapVmcCoordinator(DataUpdateCoordinator[VmcData]):
     """Polls one unit.
 
     Home page widgets are read at every update (no side effects); the menu
-    pages ("Stato" and "Parametri > Stagione") move the unit's menu cursor,
+    pages (status list "Stato" and season "Parametri > Stagione") move the unit's menu cursor,
     so they are read less often.
     """
 

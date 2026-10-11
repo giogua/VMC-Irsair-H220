@@ -14,6 +14,12 @@ The unit exposes an old-style HTML interface (no JSON API):
   always be taken from the last response.  After every menu operation the
   client brings the cursor back to the home page.
 
+The labels served by the unit are in Italian and are matched verbatim:
+"Stato" (status), "Parametri" (parameters), "Stagione" (season),
+"Inverno"/"Estate" (winter/summer), "Vent.Ingr."/"Vent.Estr."
+(supply/extract fan), "Antig.Batt." (coil antifreeze), "Ore Vent."
+(fan operating hours).
+
 This module has no Home Assistant dependency so it can be tested standalone.
 """
 
@@ -454,7 +460,7 @@ class IrsapVmcClient:
         return page
 
     async def async_get_menu_data(self) -> tuple[str | None, dict[str, Any]]:
-        """Read "Parametri > Stagione" and the full "Stato" list.
+        """Read the season ("Parametri > Stagione") and the full status list ("Stato").
 
         This moves the server-side menu cursor and restores it to home.
         """
@@ -600,7 +606,7 @@ class IrsapVmcClient:
             return current
 
     async def async_set_season(self, season: str) -> str | None:
-        """Set "Parametri > Stagione" (Inverno / Estate)."""
+        """Set the season ("Parametri > Stagione"): "Inverno" (winter) or "Estate" (summer)."""
         if season not in SEASONS:
             raise ValueError(f"Invalid season {season!r}")
         async with self._lock:
